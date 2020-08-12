@@ -1,11 +1,11 @@
 <template>
   <div class="content-container">
     <div class="content-img__show" v-show="imageUrl">
-      <div style="padding: 100px;">
+      <div style="padding: 50px;">
       <img :src="imageUrl" alt="image" width="100%" />
       </div>
       <div class="content-watermark">
-        <div v-for="item in 50" :key="item" class="mark">{{ mark }}</div>
+        <div v-for="item in 50" :key="item" class="mark" :style="'margin-bottom:' + lineHeight + 'px'">{{ mark }}</div>
       </div>
     </div>
     <div class="content-img__upload" v-show="!imageUrl">
@@ -27,7 +27,8 @@
 export default {
   name: "Content",
   props: {
-    mark: String
+    mark: String,
+    lineHeight: Number
   },
   data() {
     return {
@@ -72,7 +73,7 @@ export default {
 }
 
 .content-watermark {
-  width: 700px;
+  width: 600px;
   height: 100%;
   position: absolute;
   top: 0;
@@ -86,6 +87,6 @@ export default {
   margin-right: 5px;
   font-size: 12px;
   font-weight: 400;
-  color: #696969;
+  color: rgba(96, 90, 87, 0.68);
 }
 </style>
