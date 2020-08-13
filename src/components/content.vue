@@ -1,11 +1,25 @@
 <template>
   <div class="content-container">
-    <div class="content-img__show" v-show="imageUrl">
-      <div style="padding: 50px;">
-      <img :src="imageUrl" alt="image" width="100%" />
+    <div class="content-img__show"
+         v-show="imageUrl"
+         :style="'width:' + imgWidth*1.5 + 'px;height:' + imgHeight*1.5 + 'px'">
+      <div style="display: flex;justify-content: center;align-items: center;padding-top: 50px">
+        <img :src="imageUrl"
+             :class="gray ? 'gray' : ''"
+             alt="image"
+             :width="imgWidth + 'px'"
+             :height="imgHeight + 'px'"
+             :style="'transform: rotate(' + rotateVal + 'deg)'" />
       </div>
       <div class="content-watermark">
-        <div v-for="item in 50" :key="item" class="mark" :style="'margin-bottom:' + lineHeight + 'px'">{{ mark }}</div>
+        <div
+            v-for="item in imgHeight/10"
+            :key="item"
+            class="mark"
+            :style="'color:' + color + ';margin-bottom:' + lineHeight + 'px;font-size:' +  fontSize + 'px;'"
+        >
+          {{ mark }}
+        </div>
       </div>
     </div>
     <div class="content-img__upload" v-show="!imageUrl">
@@ -17,7 +31,7 @@
           drag>
         <i class="el-icon-upload" />
         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-        <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+        <div class="el-upload__tip" slot="tip">只能上传jpg/png文件</div>
       </el-upload>
     </div>
   </div>
@@ -28,7 +42,13 @@ export default {
   name: "Content",
   props: {
     mark: String,
-    lineHeight: Number
+    lineHeight: Number,
+    fontSize: Number,
+    color: String,
+    imgWidth: Number,
+    imgHeight: Number,
+    rotateVal: Number,
+    gray: Boolean
   },
   data() {
     return {
@@ -40,16 +60,12 @@ export default {
       this.imageUrl = URL.createObjectURL(file.raw);
     },
     beforeUpload(file) {
-      const isJPG = file.type === 'image/jpeg';
-      const isLt2M = file.size / 1024 / 1024 < 2;
+      const isJPG = file.type === 'image/jpeg' || 'image/png';
 
       if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!');
+        this.$message.error('上传图片只能是 JPG/PNG 格式!');
       }
-      if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!');
-      }
-      return isJPG && isLt2M;
+      return isJPG;
     }
   }
 }
@@ -64,19 +80,19 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 }
 
 .content-img__show {
-  width: 600px;
   position: relative;
   margin: 0;
+  overflow: hidden;
 }
 
 .content-watermark {
-  width: 600px;
-  height: 100%;
   position: absolute;
   top: 0;
+  left: 20px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -87,6 +103,9 @@ export default {
   margin-right: 5px;
   font-size: 12px;
   font-weight: 400;
-  color: rgba(96, 90, 87, 0.68);
+}
+
+.gray {
+  filter: grayscale(100%);
 }
 </style>
