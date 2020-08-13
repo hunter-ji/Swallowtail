@@ -3,7 +3,7 @@
     <div class="content-img__show"
          v-show="imageUrl"
          :style="'width:' + imgWidth*1.5 + 'px;height:' + imgHeight*1.5 + 'px'">
-      <div style="display: flex;justify-content: center;align-items: center;padding-top: 50px">
+      <div style="display: flex;justify-content: center;align-items: center;" :style="`padding-top: ${imgHeight/4}px;`">
         <img :src="imageUrl"
              :class="gray ? 'gray' : ''"
              alt="image"
@@ -80,7 +80,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
+  /*overflow: hidden;*/
 }
 
 .content-img__show {
