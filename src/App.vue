@@ -11,6 +11,8 @@
             :imgHeight="imgHeight"
             :rotate-val="rotateVal"
             :gray="gray"
+            :imageUrl="imageUrl"
+            @toggle="toggle"
         />
       </el-main>
       <el-aside style="width: 30%;min-width: 300px;">
@@ -28,10 +30,10 @@
             <el-color-picker v-model="color" show-alpha />
           </el-form-item>
           <el-form-item label="宽度">
-            <el-input-number v-model="imgWidth" :min="100" :max="2000" />
+            <el-input type="number" v-model="imgWidth" placeholder="图片宽度" />
           </el-form-item>
           <el-form-item label="高度">
-            <el-input-number v-model="imgHeight" :min="100" :max="2000" />
+            <el-input type="number" v-model="imgHeight" placeholder="图片高度" />
           </el-form-item>
           <el-form-item label="翻转">
             <el-button type="primary" @click="rotateHandle('left')">左转</el-button>
@@ -45,6 +47,9 @@
             />
           </el-form-item>
         </el-form>
+        <div class="aside-form">
+          <el-button style="width: 100%;" @click="imageUrl = null">重新上传</el-button>
+        </div>
 
 
         <div class="version">
@@ -80,7 +85,8 @@ export default {
       imgWidth: 600,
       imgHeight: 400,
       rotateVal: 0,
-      gray: false
+      gray: false,
+      imageUrl: null
     }
   },
   methods: {
@@ -102,6 +108,9 @@ export default {
           this.rotateVal = 0;
         }
       }
+    },
+    toggle(val) {
+     this.imageUrl = val;
     }
   }
 }

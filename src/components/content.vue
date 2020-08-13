@@ -2,21 +2,19 @@
   <div class="content-container">
     <div class="content-img__show"
          v-show="imageUrl"
-         :style="'width:' + imgWidth*1.5 + 'px;height:' + imgHeight*1.5 + 'px'">
-      <div style="display: flex;justify-content: center;align-items: center;" :style="`padding-top: ${imgHeight/4}px;`">
-        <img :src="imageUrl"
+         :style="`width:${imgWidth*1.5}px;height:${imgHeight*1.5}px;`">
+      <div style="display: flex;justify-content: center;align-items: center;" :style="`padding-top:${imgHeight/4}px;`">
+        <img :src="localImageurl"
              :class="gray ? 'gray' : ''"
              alt="image"
-             :width="imgWidth + 'px'"
-             :height="imgHeight + 'px'"
-             :style="'transform: rotate(' + rotateVal + 'deg)'" />
+             :style="`transform:rotate(${rotateVal}deg);width:${imgWidth}px;height:${imgHeight}px;`" />
       </div>
       <div class="content-watermark">
         <div
             v-for="item in imgHeight/10"
             :key="item"
             class="mark"
-            :style="'color:' + color + ';margin-bottom:' + lineHeight + 'px;font-size:' +  fontSize + 'px;'"
+            :style="`color:${color};margin-bottom:${lineHeight}px;font-size:${fontSize}px;`"
         >
           {{ mark }}
         </div>
@@ -25,6 +23,7 @@
     <div class="content-img__upload" v-show="!imageUrl">
       <el-upload
           action=""
+          :show-file-list="false"
           :on-change="handleChange"
           :before-upload="beforeUpload"
           :auto-upload="false"
@@ -48,16 +47,18 @@ export default {
     imgWidth: Number,
     imgHeight: Number,
     rotateVal: Number,
-    gray: Boolean
+    gray: Boolean,
+    imageUrl: String
   },
   data() {
     return {
-      imageUrl: null
+      localImageurl: this.imageUrl
     }
   },
   methods: {
     handleChange(file) {
-      this.imageUrl = URL.createObjectURL(file.raw);
+      this.localImageurl = URL.createObjectURL(file.raw);
+      this.$emit("toggle", this.localImageurl)
     },
     beforeUpload(file) {
       const isJPG = file.type === 'image/jpeg' || 'image/png';
@@ -66,6 +67,11 @@ export default {
         this.$message.error('上传图片只能是 JPG/PNG 格式!');
       }
       return isJPG;
+    }
+  },
+  watch: {
+    imageUrl(val) {
+      this.localImageurl = val;
     }
   }
 }
@@ -80,13 +86,14 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  /*overflow: hidden;*/
+  overflow: hidden;
 }
 
 .content-img__show {
   position: relative;
   margin: 0;
   overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .content-watermark {
