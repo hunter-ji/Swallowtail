@@ -1,24 +1,8 @@
 <template>
   <div class="content-container">
     <div class="content-img__show"
-         v-show="imageUrl"
-         :style="`width:${imgWidth*1.5}px;height:${imgHeight*1.5}px;`">
-      <div style="display: flex;justify-content: center;align-items: center;" :style="`padding-top:${imgHeight/4}px;`">
-        <img :src="localImageurl"
-             :class="gray ? 'gray' : ''"
-             alt="image"
-             :style="`transform:rotate(${rotateVal}deg);width:${imgWidth}px;height:${imgHeight}px;`" />
-      </div>
-      <div class="content-watermark">
-        <div
-            v-for="item in imgHeight/10"
-            :key="item"
-            class="mark"
-            :style="`color:${color};margin-bottom:${lineHeight}px;font-size:${fontSize}px;`"
-        >
-          {{ mark }}
-        </div>
-      </div>
+         id="target"
+         v-show="imageUrl">
     </div>
     <div class="content-img__upload" v-show="!imageUrl">
       <el-upload
@@ -37,6 +21,8 @@
 </template>
 
 <script>
+import handleImg from "./imgWater";
+
 export default {
   name: "Content",
   props: {
@@ -52,13 +38,20 @@ export default {
   },
   data() {
     return {
-      localImageurl: this.imageUrl
+      localImageurl: this.imageUrl,
     }
   },
   methods: {
+    handleMark(mark) {
+      for (let i = 0; i < 5; i++) {
+        mark += "     " + mark
+      }
+      return mark
+    },
     handleChange(file) {
       this.localImageurl = URL.createObjectURL(file.raw);
-      this.$emit("toggle", this.localImageurl)
+      this.$emit("toggle", this.localImageurl);
+      handleImg(this.localImageurl, "target", this.handleMark(this.mark), this.fontSize, this.color, 1000, 800);
     },
     beforeUpload(file) {
       const isJPG = file.type === 'image/jpeg' || 'image/png';
@@ -94,6 +87,18 @@ export default {
   margin: 0;
   overflow: hidden;
   text-overflow: ellipsis;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 1000px;
+  height: 800px;
+}
+
+.content-img__show img {
+  max-height: 100%;
+  max-width: 100%;
+  display: block;
+  margin: auto;
 }
 
 .content-watermark {
