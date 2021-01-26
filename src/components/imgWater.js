@@ -1,5 +1,4 @@
 function handleImg(imgData, id, text, fontSize, color, width, height) {
-  console.log(width, height);
   let img = document.createElement("img")
   img.src = imgData;
   // img.width = width;
@@ -29,6 +28,7 @@ function handleImg(imgData, id, text, fontSize, color, width, height) {
     let image = new Image();
     image.src = src;
     image.src = canvas.toDataURL("image/png");
+    image.id = "target_img";
     let parent = document.getElementById(id);
     parent.innerHTML = "";
     parent.appendChild(image);

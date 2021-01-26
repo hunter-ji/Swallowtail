@@ -5,6 +5,15 @@
          v-show="imageUrl">
     </div>
     <div class="content-img__upload" v-show="!imageUrl">
+      <div class="content-desc">
+        <div>
+          <img src="@/assets/icon.png" alt="logo" height="100px" width="100px" />
+        </div>
+        <div class="content-desc__inner">
+          <img src="@/assets/font_logo.png" alt="font_logo" height="50px" />
+        </div>
+<!--        <div class="content-desc__inner">SwallowTail</div>-->
+      </div>
       <el-upload
           action=""
           :show-file-list="false"
@@ -13,8 +22,7 @@
           :auto-upload="false"
           drag>
         <i class="el-icon-upload" />
-        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-        <div class="el-upload__tip" slot="tip">只能上传jpg/png文件</div>
+        <div class="el-upload__text">将jpg/png文件拖到此处，或<em>点击上传</em></div>
       </el-upload>
     </div>
   </div>
@@ -48,10 +56,13 @@ export default {
       }
       return mark
     },
+    perform() {
+      handleImg(this.localImageurl, "target", this.handleMark(this.mark), this.fontSize, this.color, 1000, 800);
+    },
     handleChange(file) {
       this.localImageurl = URL.createObjectURL(file.raw);
       this.$emit("toggle", this.localImageurl);
-      handleImg(this.localImageurl, "target", this.handleMark(this.mark), this.fontSize, this.color, 1000, 800);
+      this.perform();
     },
     beforeUpload(file) {
       const isJPG = file.type === 'image/jpeg' || 'image/png';
@@ -65,6 +76,23 @@ export default {
   watch: {
     imageUrl(val) {
       this.localImageurl = val;
+    },
+    gray(val) {
+      if (val) {
+        document.getElementById("target").classList.add("gray");
+      } else {
+        document.getElementById("target").classList.remove("gray");
+      }
+    },
+    color() {
+      this.perform();
+    },
+    fontSize() {
+      this.perform();
+    },
+    rotateVal() {
+      let imgDom = document.getElementById("target").firstChild;
+      imgDom.setAttribute("style", `transform:rotate(${ this.rotateVal }deg)`)
     }
   }
 }
@@ -101,23 +129,26 @@ export default {
   margin: auto;
 }
 
-.content-watermark {
-  position: absolute;
-  top: 0;
-  left: 20px;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  transform: rotate(-45deg);
-}
-
-.mark {
-  margin-right: 5px;
-  font-size: 12px;
-  font-weight: 400;
-}
-
 .gray {
   filter: grayscale(100%);
+}
+
+.content-img__upload {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.content-desc {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 35px;
+}
+
+.content-desc__inner {
+  margin-left: 24px;
+  display: flex;
+  align-items: center;
 }
 </style>
