@@ -1,5 +1,5 @@
 <template>
-  <div class="content-container">
+  <div class="content-container" id="content-container">
     <div class="content-img__show"
          id="target"
          v-show="imageUrl">
@@ -12,7 +12,7 @@
         <div class="content-desc__inner">
           <img src="@/assets/font_logo.png" alt="font_logo" height="50px" />
         </div>
-<!--        <div class="content-desc__inner">SwallowTail</div>-->
+        <!--        <div class="content-desc__inner">SwallowTail</div>-->
       </div>
       <el-upload
           action=""
@@ -76,6 +76,7 @@ export default {
   watch: {
     imageUrl(val) {
       this.localImageurl = val;
+      document.getElementById("content-container").classList.add("rounded-corners")
     },
     gray(val) {
       if (val) {
@@ -100,7 +101,6 @@ export default {
 
 <style scoped>
 .content-container {
-  border-radius: 0 8px 0 0;
   background: #f2f2f2;
   width: 100%;
   height: 100%;
@@ -108,6 +108,10 @@ export default {
   justify-content: center;
   align-items: center;
   overflow: hidden;
+}
+
+.rounded-corners {
+  border-radius: 0 8px 0 0;
 }
 
 .content-img__show {

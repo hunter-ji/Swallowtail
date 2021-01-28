@@ -1,7 +1,8 @@
 <template>
   <div id="app">
-    <el-container>
-      <el-main style="padding: 10px 0 0 0;height: 100vh;">
+    <el-container class="container">
+      <el-main style="height: 100%;width: 100%;padding: 0;" class="container-main">
+        <div class="container-header" v-show="imageUrl" />
         <content-com
             :mark="mark"
             :lineHeight="lineHeight"
@@ -120,6 +121,22 @@ export default {
 </script>
 
 <style scoped>
+.container {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+}
+
+.container-main {
+  display: flex;
+  flex-direction: column;
+}
+
+.container-header {
+  height: 10px;
+  background: #ffffff;
+}
+
 .version {
   font-size: 14px;
   font-weight: 400;

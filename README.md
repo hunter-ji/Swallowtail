@@ -6,13 +6,13 @@ SwallowTail是一个自定义添加水印的客户端，支持Linux、Windows、
 
 [Demo](https://www.justmylife.cc/Swallowtail/)
 
-[Mac客户端](https://github.com/Kuari/Swallowtail/releases/download/mac_v1.1.0/swallowtail-0.1.0.dmg)
+[Mac客户端](https://github.com/Kuari/Swallowtail/releases/download/v2.0.0/swallowtail-2.0.0.dmg)
 
 ## 截图
 
-![](./Screenshots/screenshot1.png)
+![screenshot1](./Screenshots/screenshot1.png)
 
-![](./Screenshots/screenshot2.png)
+![screenshot2](./Screenshots/screenshot2.png)
 
 
 
